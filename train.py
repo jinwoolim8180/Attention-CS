@@ -161,7 +161,7 @@ for epoch_i in range(start_epoch + 1, end_epoch + 1):
     output_file.write(output_data)
     output_file.close()
 
-    if epoch_i % 10 == 0 and epoch_i <= 400:
+    if epoch_i % 1 == 0 and epoch_i <= 400:
         torch.save(model.state_dict(), "./%s/net_params_%d.pkl" % (model_dir, epoch_i))  # save only the parameters
     elif epoch_i > 400:
         torch.save(model.state_dict(), "./%s/net_params_%d.pkl" % (model_dir, epoch_i))  # save only the parameters
