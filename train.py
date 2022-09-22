@@ -129,6 +129,7 @@ if finetune > 0:
     
 # Training loop
 for epoch_i in range(start_epoch + 1, end_epoch + 1):
+    i = 0
 
     if epoch_i > media_epoch:
         args.patch_size = patch_size1
@@ -152,8 +153,9 @@ for epoch_i in range(start_epoch + 1, end_epoch + 1):
         loss_all.backward()
         optimizer.step()
 
-        output_data = "[%02d/%02d] Total Loss: %.4f\n" % (epoch_i, end_epoch, loss_all.item())
+        output_data = "[%02d/%02d] (%02d/%02d) Total Loss: %.4f\n" % (epoch_i, end_epoch, i, len(rand_loader), loss_all.item())
         print(output_data)
+        i += batch_size
 
     output_file = open(log_file_name, 'a')
     output_file.write(output_data)
