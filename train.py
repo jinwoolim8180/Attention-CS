@@ -146,7 +146,7 @@ for epoch_i in range(start_epoch + 1, end_epoch + 1):
         x_output = model(Phix, Phi)
 
         # Compute and print loss
-        loss_all = nn.L1Loss()(x_output, batch_x)
+        loss_all = nn.MSELoss()(x_output, batch_x)
 
         # Zero gradients, perform a backward pass, and update the weights.
         optimizer.zero_grad()
