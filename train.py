@@ -88,8 +88,8 @@ if print_flag:
     for para in model.parameters():
         num_count += 1
         num_params += para.numel()
-        print('Layer %d' % num_count)
-        print(para.size())
+        # print('Layer %d' % num_count)
+        # print(para.size())
     print("total para num: %d" % num_params)
 
 training_data = csdata_fast.SlowDataset(args)
