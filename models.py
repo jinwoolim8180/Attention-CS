@@ -59,7 +59,7 @@ class BasicBlock(torch.nn.Module):
         super(BasicBlock, self).__init__()
         channels = args.channels
         self.lambda_step = nn.Parameter(torch.Tensor([0.5]))
-        self.conv_D = nn.Parameter(init.xavier_normal_(torch.Tensor(channels, 1, 3, 3)))
+        self.conv_D = nn.Parameter(init.xavier_normal_(torch.Tensor(channels, channels + 1, 3, 3)))
         self.RB1 = ResidualBlock(channels, channels, 3, bias=True)
         self.RB2 = ResidualBlock(channels, channels, 3, bias=True)
         self.conv_G = nn.Parameter(init.xavier_normal_(torch.Tensor(1, channels, 3, 3)))
@@ -68,7 +68,8 @@ class BasicBlock(torch.nn.Module):
     def forward(self, x, z, PhiWeight, PhiTWeight, PhiTb, h, c):
         x = x - self.lambda_step * PhiTPhi_fun(x, PhiWeight, PhiTWeight)
         x_input = x + self.lambda_step * PhiTb
-        x_D = F.conv2d(x_input, self.conv_D, padding=1)
+        x_a = torch.cat([x_input, z], 1)
+        x_D = F.conv2d(x_a, self.conv_D, padding=1)
         x = self.RB1(x_D)
         x, h, c = self.ConvLSTM(x, h, c)
         x_backward = self.RB2(x)
