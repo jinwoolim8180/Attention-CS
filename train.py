@@ -9,7 +9,7 @@ from torch.utils.data import Dataset, DataLoader
 import platform
 from argparse import ArgumentParser
 import csdata_fast
-from original import MADUN
+from models import MADUN
 
 parser = ArgumentParser(description='MADUN')
 parser.add_argument('--start_epoch', type=int, default=0, help='epoch number of start training')
