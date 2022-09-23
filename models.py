@@ -59,7 +59,7 @@ class BasicBlock(torch.nn.Module):
         super(BasicBlock, self).__init__()
         channels = args.channels
         self.lambda_step = nn.Parameter(torch.Tensor([0.5]))
-        self.conv_D = nn.Parameter(init.xavier_normal_(torch.Tensor(channels, channels, 3, 3)))
+        self.conv_D = nn.Parameter(init.xavier_normal_(torch.Tensor(channels, 1, 3, 3)))
         self.RB1 = ResidualBlock(channels, channels, 3, bias=True)
         self.RB2 = ResidualBlock(channels, channels, 3, bias=True)
         self.conv_G = nn.Parameter(init.xavier_normal_(torch.Tensor(1, channels, 3, 3)))
