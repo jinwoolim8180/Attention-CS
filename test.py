@@ -67,7 +67,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 model_dir = "./%s/CS_%s_channels_%d_layer_%d_ratio_%d" % (args.model_dir, args.algo_name, channels, layer_num, cs_ratio)
 
 # Load pre-trained model with epoch number
-model.load_state_dict(torch.load('./%s/net_params_%d.pkl' % (model_dir, epoch_num)))
+model.load_state_dict(torch.load('./%s/net_params_%d.pkl' % (model_dir, epoch_num), map_location=torch.device('cpu')))
 
 def imread_CS_py(Iorg):
     block_size = 33
