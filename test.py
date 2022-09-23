@@ -125,7 +125,7 @@ with torch.no_grad():
         Iorg = Iorg_y.copy()
         [Iorg, row, col, Ipad, row_new, col_new] = imread_CS_py(Iorg_y)
         Img_output = Ipad.reshape(1, 1, Ipad.shape[0], Ipad.shape[1])/255.0
-        torch.cuda.synchronize()
+        # torch.cuda.synchronize()
         start = time()
 
         batch_x = torch.from_numpy(Img_output)
@@ -136,7 +136,7 @@ with torch.no_grad():
         Phix = F.conv2d(batch_x, PhiWeight, padding=0, stride=33, bias=None)
 
         x_output = model(Phix, Phi)
-        torch.cuda.synchronize()
+        # torch.cuda.synchronize()
         end = time()
 
         Prediction_value = x_output.cpu().data.numpy().squeeze()
