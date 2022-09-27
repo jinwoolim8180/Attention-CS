@@ -154,7 +154,8 @@ for epoch_i in range(start_epoch + 1, end_epoch + 1):
         loss_all.backward()
         optimizer.step()
 
-        pbar.set_description("loss: {}".format(loss_all.item()))
+        output_data = "[%02d/%02d] (%02d/%02d) Total Loss: %.4f\n" % (epoch_i, end_epoch, i, len(rand_loader), loss_all.item())
+        pbar.set_description("Loss: %.4f" % (loss_all.item()))
         i += 1
 
     output_file = open(log_file_name, 'a')
