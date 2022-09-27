@@ -10,6 +10,7 @@ import platform
 from argparse import ArgumentParser
 import csdata_fast
 from models import MADUN
+from tqdm import tqdm
 
 parser = ArgumentParser(description='MADUN')
 parser.add_argument('--start_epoch', type=int, default=0, help='epoch number of start training')
@@ -133,8 +134,8 @@ for epoch_i in range(start_epoch + 1, end_epoch + 1):
 
     if epoch_i > media_epoch:
         args.patch_size = patch_size1
-    
-    for data in rand_loader:
+    pbar = tqdm(rand_loader)
+    for data in pbar:
         batch_x = data
         batch_x = batch_x.to(device)
         batch_x = batch_x.view(-1, 1, args.patch_size, args.patch_size)
@@ -153,8 +154,7 @@ for epoch_i in range(start_epoch + 1, end_epoch + 1):
         loss_all.backward()
         optimizer.step()
 
-        output_data = "[%02d/%02d] (%02d/%02d) Total Loss: %.4f\n" % (epoch_i, end_epoch, i, len(rand_loader), loss_all.item())
-        print(output_data)
+        pbar.set_description("loss: {}".format(loss_all.item()))
         i += 1
 
     output_file = open(log_file_name, 'a')
