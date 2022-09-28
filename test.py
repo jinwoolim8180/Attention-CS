@@ -13,7 +13,7 @@ import cv2
 from skimage.metrics import structural_similarity as ssim
 from argparse import ArgumentParser
 import pandas as pd
-from models import MADUN
+from original import MADUN
 
 parser = ArgumentParser(description='MADUN')
 parser.add_argument('--epoch_num', type=int, default=401, help='epoch number of model')
