@@ -18,7 +18,11 @@ class ConvLSTM(nn.Module):
         super().__init__()
         self.query = ResidualBlock(inp_dim, oup_dim, kernel)
         self.key = ResidualBlock(inp_dim, oup_dim, kernel)
-        self.value = ResidualBlock(inp_dim, oup_dim, kernel)
+        self.value = nn.Sequential(
+            nn.Conv2d(2 * inp_dim, oup_dim, 3, padding=1, bias=False),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(oup_dim, oup_dim, 3, padding=1, bias=False)
+        )
 
     def forward(self, x, h, c):
 
@@ -29,7 +33,7 @@ class ConvLSTM(nn.Module):
         query = self.query(residual)
         key = self.key(x)
         gate = torch.sigmoid(query * key)
-        h = gate * self.value(x)
+        h = gate * self.value(torch.cat([x, h], dim=1))
 
         return h, h, c
 
