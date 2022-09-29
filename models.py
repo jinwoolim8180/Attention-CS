@@ -18,18 +18,18 @@ class ConvLSTM(nn.Module):
         super().__init__()
         self.query = nn.Conv2d(inp_dim, oup_dim, 3, padding=1, bias=False)
         self.key = nn.Conv2d(inp_dim, oup_dim, 3, padding=1, bias=False)
-        self.value = nn.Conv2d(inp_dim, oup_dim, 3, padding=1, bias=False),
+        self.value = nn.Conv2d(2 * inp_dim, oup_dim, 3, padding=1, bias=False)
 
     def forward(self, x, h, c):
 
         if h is None:
-            residual = x - x
+            residual = x
         else:
-            residual = x - h
+            residual = h
         query = self.query(residual)
         key = self.key(x)
         gate = F.sigmoid(query * key)
-        h = gate * self.value(x)
+        h = gate * self.value(torch.cat([x, residual], dim=1))
 
         return h, h, c
 
