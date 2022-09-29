@@ -29,6 +29,8 @@ class ConvLSTM(nn.Module):
         query = self.query(residual)
         key = self.key(x)
         gate = torch.sigmoid(query * key)
+        print(x.type)
+        print(residual.type)
         h = gate * self.value(torch.cat([x, residual], dim=1))
 
         return h, h, c
