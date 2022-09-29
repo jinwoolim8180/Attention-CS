@@ -23,9 +23,9 @@ class ConvLSTM(nn.Module):
     def forward(self, x, h, c):
 
         if h is None:
-            residual = x
+            residual = x - x
         else:
-            residual = h
+            residual = x - h
         query = self.query(residual)
         key = self.key(x)
         gate = torch.sigmoid(query * key)
