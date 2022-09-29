@@ -9,7 +9,7 @@ from torch.utils.data import Dataset, DataLoader
 import platform
 from argparse import ArgumentParser
 import csdata_fast
-from original import MADUN
+from models import MADUN
 from tqdm import tqdm
 
 parser = ArgumentParser(description='MADUN')
